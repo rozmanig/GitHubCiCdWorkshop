@@ -35,3 +35,12 @@ jobs:
       with:
         name: sample-app
         path: ./sample-app
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --logger trx
+    - name: Generate test summary
+      uses: dorny/test-reporter@v2
+      if: success() || failure()
+      with:
+        name: Tests
+        path: GitHubCiCd.Tests/TestResults/*.trx
+        reporter: dotnet-trx
